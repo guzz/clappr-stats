@@ -1,12 +1,6 @@
 // Karma configuration
 // Generated on Tue Jun 06 2017 21:11:25 GMT-0300 (-03)
-const webpackConfig = require('./webpack.config')
-
-const webpackTestConfig = Object.assign({}, webpackConfig[0])
-webpackTestConfig.entry = null
-webpackTestConfig.externals = {}
-// webpackTestConfig.output.filename = '[name].js'
-
+const buble = require('@rollup/plugin-buble')
 module.exports = function(config) {
   config.set({
 
@@ -20,7 +14,7 @@ module.exports = function(config) {
     frameworks: ['mocha', 'chai', 'sinon'],
 
     plugins: [
-      'karma-webpack',
+      'karma-rollup-plugin',
       'karma-chrome-launcher',
       'karma-mocha',
       'karma-chai',
@@ -37,14 +31,22 @@ module.exports = function(config) {
     exclude: [
     ],
 
-    webpack: webpackTestConfig,
+    rollupPreprocessor: {
+      external: ['@clappr/core'],
+      plugins: [
+        buble() // ES2015 compiler by the same author as Rollup
+      ],
+      // will help to prevent conflicts between different tests entries
+      format: 'iife',
+      sourceMap: 'inline'
+    },
 
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'test/*.spec.js': ['webpack'],
-      'src/*.js': ['webpack']
+      'test/*.spec.js': ['rollup'],
+      'src/*.js': ['rollup']
     },
 
 
