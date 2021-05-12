@@ -1,4 +1,4 @@
-import {ContainerPlugin, Events, Log} from '@clappr/core'
+import {ContainerPlugin, Events, Log} from '@guzzj/clappr-core'
 import get from 'lodash.get'
 
 

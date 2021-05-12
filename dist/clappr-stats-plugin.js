@@ -1,8 +1,8 @@
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('@clappr/core')) :
-  typeof define === 'function' && define.amd ? define(['@clappr/core'], factory) :
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('@guzzj/clappr-core')) :
+  typeof define === 'function' && define.amd ? define(['@guzzj/clappr-core'], factory) :
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.ClapprStats = factory(global.Clappr));
-}(this, (function (core) { 'use strict';
+}(this, (function (clapprCore) { 'use strict';
 
   function _classCallCheck(instance, Constructor) {
     if (!(instance instanceof Constructor)) {
@@ -1157,26 +1157,26 @@
       value: function bindEvents() {
         var _this2 = this;
 
-        this.listenTo(this.container, core.Events.CONTAINER_BITRATE, this.onBitrate);
-        this.listenTo(this.container, core.Events.CONTAINER_STOP, this.stopReporting);
-        this.listenTo(this.container, core.Events.CONTAINER_ENDED, this.stopReporting);
-        this.listenToOnce(this.container.playback, core.Events.PLAYBACK_PLAY_INTENT, this.startTimers);
-        this.listenToOnce(this.container, core.Events.CONTAINER_PLAY, this.onFirstPlaying);
-        this.listenTo(this.container, core.Events.CONTAINER_PLAY, this.onPlay);
-        this.listenTo(this.container, core.Events.CONTAINER_PAUSE, this.onPause);
-        this.listenToOnce(this.container, core.Events.CONTAINER_STATE_BUFFERING, this.onBuffering);
-        this.listenTo(this.container, core.Events.CONTAINER_SEEK, this.onSeek);
-        this.listenTo(this.container, core.Events.CONTAINER_ERROR, function () {
+        this.listenTo(this.container, clapprCore.Events.CONTAINER_BITRATE, this.onBitrate);
+        this.listenTo(this.container, clapprCore.Events.CONTAINER_STOP, this.stopReporting);
+        this.listenTo(this.container, clapprCore.Events.CONTAINER_ENDED, this.stopReporting);
+        this.listenToOnce(this.container.playback, clapprCore.Events.PLAYBACK_PLAY_INTENT, this.startTimers);
+        this.listenToOnce(this.container, clapprCore.Events.CONTAINER_PLAY, this.onFirstPlaying);
+        this.listenTo(this.container, clapprCore.Events.CONTAINER_PLAY, this.onPlay);
+        this.listenTo(this.container, clapprCore.Events.CONTAINER_PAUSE, this.onPause);
+        this.listenToOnce(this.container, clapprCore.Events.CONTAINER_STATE_BUFFERING, this.onBuffering);
+        this.listenTo(this.container, clapprCore.Events.CONTAINER_SEEK, this.onSeek);
+        this.listenTo(this.container, clapprCore.Events.CONTAINER_ERROR, function () {
           return _this2._inc('error');
         });
-        this.listenTo(this.container, core.Events.CONTAINER_FULLSCREEN, function () {
+        this.listenTo(this.container, clapprCore.Events.CONTAINER_FULLSCREEN, function () {
           return _this2._inc('fullscreen');
         });
-        this.listenTo(this.container, core.Events.CONTAINER_PLAYBACKDVRSTATECHANGED, function (dvrInUse) {
+        this.listenTo(this.container, clapprCore.Events.CONTAINER_PLAYBACKDVRSTATECHANGED, function (dvrInUse) {
           dvrInUse && _this2._inc('dvrUsage');
         });
-        this.listenTo(this.container.playback, core.Events.PLAYBACK_PROGRESS, this.onProgress);
-        this.listenTo(this.container.playback, core.Events.PLAYBACK_TIMEUPDATE, this.onTimeUpdate);
+        this.listenTo(this.container.playback, clapprCore.Events.PLAYBACK_PROGRESS, this.onProgress);
+        this.listenTo(this.container.playback, clapprCore.Events.PLAYBACK_TIMEUPDATE, this.onTimeUpdate);
       }
     }, {
       key: "destroy",
@@ -1229,7 +1229,7 @@
     }, {
       key: "onFirstPlaying",
       value: function onFirstPlaying() {
-        this.listenTo(this.container, core.Events.CONTAINER_TIMEUPDATE, this.onContainerUpdateWhilePlaying);
+        this.listenTo(this.container, clapprCore.Events.CONTAINER_TIMEUPDATE, this.onContainerUpdateWhilePlaying);
 
         this._start('watch');
 
@@ -1238,7 +1238,7 @@
     }, {
       key: "playAfterPause",
       value: function playAfterPause() {
-        this.listenTo(this.container, core.Events.CONTAINER_TIMEUPDATE, this.onContainerUpdateWhilePlaying);
+        this.listenTo(this.container, clapprCore.Events.CONTAINER_TIMEUPDATE, this.onContainerUpdateWhilePlaying);
 
         this._stop('pause');
 
@@ -1258,8 +1258,8 @@
 
         this._inc('pause');
 
-        this.listenToOnce(this.container, core.Events.CONTAINER_PLAY, this.playAfterPause);
-        this.stopListening(this.container, core.Events.CONTAINER_TIMEUPDATE, this.onContainerUpdateWhilePlaying);
+        this.listenToOnce(this.container, clapprCore.Events.CONTAINER_PLAY, this.playAfterPause);
+        this.stopListening(this.container, clapprCore.Events.CONTAINER_TIMEUPDATE, this.onContainerUpdateWhilePlaying);
       }
     }, {
       key: "onSeek",
@@ -1310,14 +1310,14 @@
 
         this._start('buffering');
 
-        this.listenToOnce(this.container, core.Events.CONTAINER_STATE_BUFFERFULL, this.onBufferfull);
+        this.listenToOnce(this.container, clapprCore.Events.CONTAINER_STATE_BUFFERFULL, this.onBufferfull);
       }
     }, {
       key: "onBufferfull",
       value: function onBufferfull() {
         this._stop('buffering');
 
-        this.listenToOnce(this.container, core.Events.CONTAINER_STATE_BUFFERING, this.onBuffering);
+        this.listenToOnce(this.container, clapprCore.Events.CONTAINER_STATE_BUFFERING, this.onBuffering);
       }
     }, {
       key: "onProgress",
@@ -1373,7 +1373,7 @@
         var isCalled = this._completion.calls.indexOf(currentPercentage) != -1;
 
         if (allPercentages.indexOf(currentPercentage) != -1 && !isCalled) {
-          core.Log.info(this.name + ' PERCENTAGE_EVENT: ' + currentPercentage);
+          clapprCore.Log.info(this.name + ' PERCENTAGE_EVENT: ' + currentPercentage);
 
           this._completion.calls.push(currentPercentage);
 
@@ -1533,7 +1533,7 @@
     }]);
 
     return ClapprStats;
-  }(core.ContainerPlugin);
+  }(clapprCore.ContainerPlugin);
   ClapprStats.REPORT_EVENT = 'clappr:stats:report';
   ClapprStats.PERCENTAGE_EVENT = 'clappr:stats:percentage';
 

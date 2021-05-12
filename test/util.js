@@ -1,4 +1,4 @@
-import { HTML5Video, Container, Events } from '@clappr/core'
+import { HTML5Video, Container, Events } from '@guzzj/clappr-core'
 
 
 class PlayerSimulator {
