@@ -32,7 +32,7 @@ module.exports = function(config) {
     ],
 
     rollupPreprocessor: {
-      external: ['@clappr/core'],
+      external: ['@guzzj/clappr-core'],
       plugins: [
         buble() // ES2015 compiler by the same author as Rollup
       ],

@@ -1,6 +1,6 @@
 {
   "name": "@guzzj/clappr-stats-plugin",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "clappr playback stats report plugin",
   "source": "src/clappr-stats.js",
   "main": "dist/clappr-stats-plugin.js",
